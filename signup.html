@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <form id="signupForm">
+    <h2>Sign Up</h2>
+
+    <input type="text" id="firstName" placeholder="First Name" required /><br>
+    <input type="text" id="lastName" placeholder="Last Name" required /><br>
+    <input type="email" id="email" placeholder="Email" required /><br>
+    <input type="password" id="password" placeholder="Password" required /><br>
+
+    <select id="sex" required>
+      <option value="" disabled selected>Select your sex</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select><br><br>
+
+    <button type="submit">Create Account</button>
+    <p id="message"></p>
+
+    <p style="text-align: center; margin-top: 20px;">
+      Already have an account?
+      <a href="login.html" style="color: #556ee6; text-decoration: none;">Login</a>
+    </p>
+  </form>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBzBXkfHcEXzJSk78DqAD9E21oMBFDaY6k",
+      authDomain: "webapp1-1faf6.firebaseapp.com",
+      projectId: "webapp1-1faf6",
+      storageBucket: "webapp1-1faf6.appspot.com",
+      messagingSenderId: "987792283410",
+      appId: "1:987792283410:web:cbfc3c68c1bc84fa6085cb"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    // Signup form event listener
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const firstName = document.getElementById("firstName").value;
+      const lastName = document.getElementById("lastName").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const sex = document.getElementById("sex").value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Save user info to Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          firstName,
+          lastName,
+          email,
+          sex,
+          createdAt: new Date(),
+        });
+
+        document.getElementById("message").innerHTML = "Account created successfully!";
+        // Optionally, you can redirect to the login page
+        // window.location.href = "login.html";
+
+      } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+      alert("This email is already in use. Please use a different one or log in.");
+    } else {
+      alert("Error: " + error.message);;
+      }
+    }});
+  </script>
+</body>
+</html>

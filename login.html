@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <form id="loginForm">
+    <h2>Log In</h2>
+    <input type="email" id="email" placeholder="Email" required><br><br>
+    <input type="password" id="password" placeholder="Password" required><br><br>
+    <button type="submit">Login</button>
+   
+    <p style="text-align: start; margin-top: 20px;">
+      Don't have an account? 
+      <a href="signup.html" style="color: #556ee6; text-decoration: none;">Sign up</a>
+    </p>
+
+    <p  style="text-align: start;"><a href="#" id="forgotPassword">Forgot Password?</a></p>
+  </form>
+  
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBzBXkfHcEXzJSk78DqAD9E21oMBFDaY6k",
+      authDomain: "webapp1-1faf6.firebaseapp.com",
+      projectId: "webapp1-1faf6",
+      storageBucket: "webapp1-1faf6.appspot.com",
+      messagingSenderId: "987792283410",
+      appId: "1:987792283410:web:cbfc3c68c1bc84fa6085cb"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // LOGIN
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+        window.location.href = "homepage.html";
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    });
+     
+    // FORGOT PASSWORD
+    document.getElementById("forgotPassword").addEventListener("click", async function (e) {
+      e.preventDefault();
+      const email = prompt("Enter your email to reset password:");
+      if (!email) return;
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Password reset email sent!");
+      } catch (error) {
+        alert("Reset failed: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
