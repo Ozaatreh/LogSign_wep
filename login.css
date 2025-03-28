@@ -1,79 +1,127 @@
-/* Add this in a separate file login.css and link it in your HTML */
+/* Apply smooth fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+/* Animated Gradient Background */
+@keyframes animatedGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Full-page gradient background */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #1e3c72, #2a5298);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  form {
-    background-color: white;
-    padding: 40px 50px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  h2 {
-    padding: 40px 30px ;
-    font-size:  xx-large;
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-  }
-  
-  input[type="email"],
-  input[type="password"] {
-    width: 90%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-  input{
-    width: 90%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #556ee6;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #4455c7;
-  }
-  
-  #message {
-    margin-top: 15px;
-    text-align: center;
-    font-weight: bold;
-  }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(45deg, #1e3c72, #2a5298, #556ee6, #2a5298);
+  background-size: 300% 300%;
+  animation: animatedGradient 8s ease infinite;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
 
-  select {
-    width: 96%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: white;
-  }
-  
+/* Login Form Styling */
+form {
+  background-color: white;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn 1s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add a glowing effect around the form */
+form::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, #f2f2f2, #c1c3c4, white, white);
+  background-size: 200% 200%;
+  z-index: -1;
+  filter: blur(10px);
+  animation: animatedGradient 6s ease infinite;
+  border-radius: 12px;
+}
+
+/* Form Heading */
+h2 {
+  font-size: xx-large;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+  position: relative;
+}
+
+/* Animated Input Fields */
+input, select {
+  width: 90%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+/* Input Focus Effect */
+input:focus, select:focus {
+  outline: none;
+  border-color: #556ee6;
+  box-shadow: 0 0 10px rgba(85, 110, 230, 0.5);
+  transform: scale(1.02);
+}
+
+/* Button Styling */
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(45deg, #556ee6, #4455c7);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Button Hover Effect */
+button:hover {
+  background: linear-gradient(45deg, #4455c7, #2a5298);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(85, 110, 230, 0.4);
+}
+
+/* Forgot Password & Sign Up Links */
+p {
+  text-align: start;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+p a {
+  color: #556ee6;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+p a:hover {
+  color: #4455c7;
+  text-decoration: underline;
+}
